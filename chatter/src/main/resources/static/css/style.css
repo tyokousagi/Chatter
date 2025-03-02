@@ -1,0 +1,148 @@
+/* 全体 */
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4; /* 薄いグレーの背景 */
+    color: #333; /* 濃いグレーの文字色 */
+}
+
+h1, h2 {
+    color: #0056b3; /* 青色の見出し */
+}
+
+a {
+    color: #007bff; /* 青色のリンク */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* チャットルーム */
+.chat-room-container {
+    border: 1px solid #ddd; /* 薄いグレーの枠線 */
+    padding: 20px;
+    background-color: #fff; /* 白色の背景 */
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #eee; /* 薄いグレーの枠線 */
+    background-color: #f9f9f9; /* 薄いグレーの背景 */
+    border-radius: 5px;
+}
+
+.message p {
+    margin: 0;
+}
+
+.message .user {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.message .timestamp {
+    color: #888;
+    font-size: smaller;
+}
+
+.message-form {
+    margin-top: 20px;
+}
+
+/* メニュー */
+.menu-container {
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.menu-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu-container li {
+    margin-bottom: 10px;
+}
+
+.menu-container a {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid #007bff; /* 青色の枠線 */
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.menu-container a:hover {
+    background-color: #e3f2fd; /* 薄い青色の背景 */
+}
+
+.form-container {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #007bff; /* 青色 */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+    body {
+        margin: 10px;
+        font-size: 14px;
+    }
+
+    .menu-container {
+        padding: 10px;
+    }
+
+    .menu-container a {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    .chat-room-container {
+        padding: 10px;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}

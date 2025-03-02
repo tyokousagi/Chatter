@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chatter.repository.AuthenticationMapper">
+
+    <select id="selectByUsername" parameterType="string" resultType="com.example.chatter.entity.Authentication">
+        SELECT
+            username,
+            password
+        FROM
+            authentications  WHERE
+            username = #{username}
+    </select>
+
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chatter.repository.MessagesMapper">
+
+    <resultMap id="MessagesResultMap" type="com.example.chatter.entity.Messages">
+        <id property="id" column="id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="chat_room_id" column="chat_room_id"/>
+        <result property="message" column="message"/>
+        <result property="is_read" column="is_read"/>
+        <result property="created_at" column="created_at"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="MessagesResultMap">
+        SELECT * FROM messages
+    </select>
+
+    <select id="selectById" parameterType="int" resultMap="MessagesResultMap">
+        SELECT * FROM messages WHERE id = #{messageId}
+    </select>
+
+    <select id="getMessagesByChatRoomId" parameterType="int" resultMap="MessagesResultMap">
+        SELECT * FROM messages WHERE chat_room_id = #{chatRoomId}
+    </select>
+
+    <update id="update" parameterType="com.example.chatter.entity.Messages">
+        UPDATE messages SET
+            user_id = #{user_id},
+            chat_room_id = #{chat_room_id},
+            message = #{message},
+            is_read = #{is_read},
+            created_at = #{created_at}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM messages WHERE id = #{messageId}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.chatter.entity.Messages" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO messages (user_id, chat_room_id, message, is_read, created_at)
+        VALUES (#{user_id}, #{chat_room_id}, #{message}, #{is_read}, #{created_at})
+    </insert>
+
+</mapper>
