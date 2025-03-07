@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .permitAll()
             )
             .rememberMe()
-                .key(UUID.randomUUID().toString()) // Cookie の暗号化に使用する秘密鍵 (必須)
+                .key("securityKey") // 固定の鍵にしアプリケーションを再起動したあとでもログインしたままにできるように
                 .tokenValiditySeconds(8640000) // Cookie の有効期限 (秒単位、例: 1 日)
                 .rememberMeParameter("remember-me") // ログイン画面のチェックボックスの名前
                 .alwaysRemember(true) // ★ この行を追加
@@ -53,7 +53,7 @@ public class SecurityConfig {
 
                 .logoutSuccessUrl("/login?logout") // 例: ログアウト後のリダイレクト先
                 .invalidateHttpSession(true)
-                .deleteCookies("JESSIONID")
+                .deleteCookies("JSESSIONID")
                 .permitAll()
             );
             
