@@ -45,7 +45,8 @@ dependencies {
 	implementation 'net.dv8tion:JDA:5.0.0-beta.19'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	//implementation("com.google.googlejavaformat:google-java-format:1.15.0")
-
+	compileOnly("org.springframework.boot:spring-boot-configuration-processor")
+	//implementation 'org.flywaydb:flyway-core'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     testImplementation 'org.springframework.security:spring-security-test'

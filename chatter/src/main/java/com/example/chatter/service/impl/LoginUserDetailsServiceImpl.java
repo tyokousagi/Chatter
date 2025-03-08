@@ -27,7 +27,8 @@ public class LoginUserDetailsServiceImpl implements UserDetailsService{
         if(authentication != null) {
             System.out.println(authentication.getUsername());
             System.out.println(authentication.getPassword());
-            return new LoginUser(authentication.getUsername(), authentication.getPassword(), Collections.emptyList());
+            
+            return new LoginUser(authentication.getUsername(), authentication.getPassword(), Collections.emptyList(),authentication.getIconUrl());
         }else {
             throw new UsernameNotFoundException(username + " => 指定しているユーザー名は存在しません");
         }

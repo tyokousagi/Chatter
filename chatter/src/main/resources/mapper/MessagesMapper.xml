@@ -6,28 +6,41 @@
 
     <resultMap id="MessagesResultMap" type="com.example.chatter.entity.Messages">
         <id property="id" column="id"/>
-        <result property="user_id" column="user_id"/>
         <result property="chat_room_id" column="chat_room_id"/>
         <result property="message" column="message"/>
         <result property="is_read" column="is_read"/>
         <result property="created_at" column="created_at"/>
+        <association property="user" javaType="com.example.chatter.entity.Authentication">
+            <id property="username" column="user_id"/>
+            <!-- Authenticationエンティティの必要なプロパティをマッピング -->
+            <result property="iconUrl" column="icon_url"/>
+        </association>
     </resultMap>
 
+    <!-- SELECTの場合、authenticationテーブルとのJOINが必要です -->
     <select id="selectAll" resultMap="MessagesResultMap">
-        SELECT * FROM messages
+        SELECT m.*, a.icon_url 
+        FROM messages m 
+        LEFT JOIN authentications a ON m.user_id = a.username
     </select>
 
     <select id="selectById" parameterType="int" resultMap="MessagesResultMap">
-        SELECT * FROM messages WHERE id = #{messageId}
+        SELECT m.*, a.icon_url 
+        FROM messages m 
+        LEFT JOIN authentications a ON m.user_id = a.username
+        WHERE m.id = #{messageId}
     </select>
 
     <select id="getMessagesByChatRoomId" parameterType="int" resultMap="MessagesResultMap">
-        SELECT * FROM messages WHERE chat_room_id = #{chatRoomId}
+        SELECT m.*, a.icon_url 
+        FROM messages m 
+        LEFT JOIN authentications a ON m.user_id = a.username
+        WHERE m.chat_room_id = #{chatRoomId}
     </select>
 
     <update id="update" parameterType="com.example.chatter.entity.Messages">
         UPDATE messages SET
-            user_id = #{user_id},
+            user_id = #{user.username},
             chat_room_id = #{chat_room_id},
             message = #{message},
             is_read = #{is_read},
@@ -41,7 +54,8 @@
 
     <insert id="insert" parameterType="com.example.chatter.entity.Messages" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO messages (user_id, chat_room_id, message, is_read, created_at)
-        VALUES (#{user_id}, #{chat_room_id}, #{message}, #{is_read}, #{created_at})
+        VALUES (#{user.username}, #{chat_room_id}, #{message}, #{is_read}, #{created_at})
     </insert>
+
 
 </mapper>

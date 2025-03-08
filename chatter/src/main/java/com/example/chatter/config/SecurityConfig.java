@@ -25,7 +25,7 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests((authorize) -> authorize
                 // 認証が不要なパスを指定
-                //.requestMatchers("/", "/css/**").permitAll() // 例: トップページと CSS は誰でもアクセス可能
+                .requestMatchers("/", "/css/**","/images/**").permitAll() // 例: トップページと CSS は誰でもアクセス可能
                 // 他のパスは認証が必要
                 .anyRequest().authenticated()
             )
