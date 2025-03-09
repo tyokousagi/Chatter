@@ -11,6 +11,7 @@
     <!-- JavaScript のインライン処理で Thymeleaf 変数を展開 -->
     <script th:inline="javascript">
         var roomId = [[${ chatRoom.id }]];
+        var currentUser = [[${ #authentication.name }]];
 
     </script>
 </head>
@@ -102,7 +103,7 @@
             if (messageContent !== "" && stompClient) {
                 var chatMessage = {
                     roomId: roomId,
-                    user: { username: "sou" }, // 実際の認証情報に置き換え
+                    user: { username: currentUser },
                     message: messageContent
                 };
                 console.log("送信メッセージ:", chatMessage);
