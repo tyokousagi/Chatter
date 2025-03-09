@@ -10,19 +10,23 @@
 <body>
     <h1>Chat Room: <span th:text="${chatRoom.room_name}"></span></h1>
 
+    <!-- メッセージ表示エリア -->
     <div class="chat-room-container">
-        <!-- メッセージ一覧 -->
-        <div th:each="message : ${messages}" class="message">
-            <img th:if="${message.user != null}" th:src="${message.user.iconUrl}" alt="User Icon" />
-            <img th:unless="${message.user != null}" th:src="@{/images/default_icon.png}" alt="Default Icon" />
-            <p th:text="${message.message}"></p>
+        <div class="messages-container">
+            <div th:each="message : ${messages}" class="message">
+                <img th:if="${message.user != null}" th:src="${message.user.iconUrl}" alt="User Icon" />
+                <img th:unless="${message.user != null}" th:src="@{/images/default_icon.png}" alt="Default Icon" />
+                <p th:text="${message.message}"></p>
+            </div>
         </div>
+    </div>
 
-        <!-- 送信フォーム -->
+    <!-- 送信エリアは別コンテナに配置 -->
+    <div class="send-message-container">
         <form th:action="@{/chatrooms/{roomId}/messages(roomId=${chatRoom.id})}" th:object="${newMessage}" method="post"
             class="message-form">
-            <input type="text" th:field="*{message}" />
-            <button type="submit">メッセージを送信</button>
+            <input type="text" th:field="*{message}" placeholder="メッセージを入力..." />
+            <button type="submit">送信</button>
         </form>
     </div>
 

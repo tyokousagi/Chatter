@@ -1,5 +1,6 @@
 package com.example.chatter.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.ibatis.javassist.tools.framedump;
@@ -67,6 +68,7 @@ public class ChatterController {
 
         newMessage.setChat_room_id(roomId);
         newMessage.setUser(userEntity);
+        newMessage.setCreated_at(LocalDateTime.now());
         messageService.sendMessage(newMessage);
         String discordWebhookUrl = System.getenv("https://discord.com/api/webhooks/1334948744810201088/uy0fHxtcYJRtnKTt9dFbTlzNAkst6mQk43dplGmf1vGcJNHMWjhJ49K8U2q2vGu57_Mw");
             if(discordWebhookUrl == null || discordWebhookUrl.isEmpty()){

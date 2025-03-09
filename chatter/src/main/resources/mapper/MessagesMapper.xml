@@ -36,6 +36,7 @@
         FROM messages m 
         LEFT JOIN authentications a ON m.user_id = a.username
         WHERE m.chat_room_id = #{chatRoomId}
+        ORDER BY m.created_at ASC  <!-- ここで昇順にソート -->
     </select>
 
     <update id="update" parameterType="com.example.chatter.entity.Messages">
