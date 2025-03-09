@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS chat_rooms;
-DROP TABLE IF EXISTS messages;
-DROP TABLE IF EXISTS authentications;
+--DROP TABLE IF EXISTS users;
+--DROP TABLE IF EXISTS chat_rooms;
+--DROP TABLE IF EXISTS messages;
+--DROP TABLE IF EXISTS authentications;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,

@@ -5,7 +5,8 @@
     <select id="selectByUsername" parameterType="string" resultType="com.example.chatter.entity.Authentication">
         SELECT
             username,
-            password
+            password,
+            icon_url as iconUrl
         FROM
             authentications  WHERE
             username = #{username}
