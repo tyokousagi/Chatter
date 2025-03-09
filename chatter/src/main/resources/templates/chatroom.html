@@ -3,25 +3,28 @@
 
 <head>
     <title th:text="${chatRoom.room_name}"></title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    </link>
+    <link rel="stylesheet" th:href="@{/css/chatroom.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
     <h1>Chat Room: <span th:text="${chatRoom.room_name}"></span></h1>
 
-    <div th:each="message : ${messages}">
-        <img th:if="${message.user != null}" th:src="${message.user.iconUrl}" alt="User Icon" />
-        <img th:unless="${message.user != null}" th:src="@{/images/default_icon.png}" alt="Default Icon" />
-        <p th:text="${message.message}"></p>
+    <div class="chat-room-container">
+        <!-- メッセージ一覧 -->
+        <div th:each="message : ${messages}" class="message">
+            <img th:if="${message.user != null}" th:src="${message.user.iconUrl}" alt="User Icon" />
+            <img th:unless="${message.user != null}" th:src="@{/images/default_icon.png}" alt="Default Icon" />
+            <p th:text="${message.message}"></p>
+        </div>
+
+        <!-- 送信フォーム -->
+        <form th:action="@{/chatrooms/{roomId}/messages(roomId=${chatRoom.id})}" th:object="${newMessage}" method="post"
+            class="message-form">
+            <input type="text" th:field="*{message}" />
+            <button type="submit">メッセージを送信</button>
+        </form>
     </div>
-
-
-    <form th:action="@{/chatrooms/{roomId}/messages(roomId=${chatRoom.id})}" th:object="${newMessage}" method="post">
-        <input type="text" th:field="*{message}" />
-        <button type="submit">メッセージを送信</button>
-    </form>
 
     <a th:href="@{/}">メニューに戻る</a>
 </body>

@@ -1,0 +1,102 @@
+/* --- 全体の基本スタイル --- */
+body {
+    margin: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+    font-family: sans-serif;
+}
+
+h1 {
+    color: #0056b3;
+    margin-bottom: 20px;
+}
+
+/* --- チャットルーム全体を囲むコンテナ --- */
+.chat-room-container {
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* --- メッセージ1件を表示する領域 --- */
+.message {
+    display: flex;           /* アイコンとテキストを横並びに */
+    align-items: flex-start; /* アイコンに合わせて上揃え */
+    gap: 10px;               /* アイコンとテキストの間隔 */
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #eee;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+/* --- メッセージ内のテキスト部分 --- */
+.message p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* --- ユーザアイコンのスタイル（任意） --- */
+.message img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* 丸く表示 */
+    object-fit: cover;  /* アイコンを枠いっぱいに収める */
+}
+
+/* --- メッセージ送信フォーム --- */
+.message-form {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;  /* 入力欄とボタンの間隔 */
+}
+
+.message-form input[type="text"] {
+    flex: 1;               /* 幅いっぱいに伸ばす */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.message-form button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.message-form button:hover {
+    background-color: #0056b3;
+}
+
+/* --- 戻るリンク（メニューに戻る） --- */
+a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* --- レスポンシブ対応（画面幅768px以下） --- */
+@media (max-width: 768px) {
+    body {
+        margin: 10px;
+        font-size: 14px;
+    }
+    .chat-room-container {
+        padding: 10px;
+    }
+    .message-form {
+        flex-direction: column; /* 入力欄とボタンを縦並びに */
+    }
+    .message-form input[type="text"] {
+        width: 100%;
+    }
+}

@@ -1,8 +1,3 @@
-INSERT INTO messages (user_id, chat_room_id, message, is_read, created_at) VALUES
-('sou', 1, 'こんにちは！', false, NOW()),
-('sou', 1, 'はじめまして！', true, NOW() - INTERVAL '1 hour'),
-('sou', 1, 'よろしくお願いします！', true, NOW() - INTERVAL '30 minute');
-
 INSERT INTO users (name, password) VALUES
 ('アリス', 'alice123'),
 ('ボブ', 'bob123');
