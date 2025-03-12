@@ -4,3 +4,5 @@ chatter/src/main/resources/static/images/sou.png
 chatter/src/main/resources/static/images/naoko.png
 chatter/generate_project_summary.py
 chatter/chatter_project_summary.txt
+chatter_project_summary.txt
+generate_project_summary.py
