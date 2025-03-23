@@ -13,8 +13,4 @@
     </select>
 
 
-    <sql id="findByUsername">
-          
-    </sql>
-
 </mapper>
