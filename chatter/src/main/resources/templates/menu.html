@@ -5,12 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>チャットルーム選択</title>
     <link rel="stylesheet" th:href="@{/css/style.css}"></link> 
+    <style>
+        /* スマートフォン向け追加スタイル */
+        @media (max-width: 480px) {
+            .menu-container {
+                padding: 15px;
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            h1 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+            
+            li {
+                margin-bottom: 12px;
+            }
+            
+            a {
+                display: block;
+                width: 100%;
+                padding: 12px;
+                text-align: center;
+                box-sizing: border-box;
+            }
+            
+            input[type="text"] {
+                font-size: 16px;
+                padding: 12px;
+            }
+            
+            button {
+                width: 100%;
+                padding: 12px;
+                margin-top: 10px;
+                font-size: 16px;
+            }
+            
+            .user-info {
+                background-color: #f0f0f0;
+                padding: 8px;
+                border-radius: 5px;
+                margin-bottom: 15px;
+                font-weight: bold;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <div sec:authentication="name"></div>
+    <div class="menu-container">
+        <div class="user-info" sec:authentication="name"></div>
 
-    <div class="menu-container"> <h1>チャットルーム一覧</h1>
+        <h1>チャットルーム一覧</h1>
 
         <ul th:if="${chatRooms.size() > 0}">
             <li th:each="chatRoom: ${chatRooms}">
