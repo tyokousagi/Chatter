@@ -1,12 +1,27 @@
+/* --- ボディ全体 --- */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f7f7f7; /* より明るいグレー */
+    color: #333;
+}
+
+/* --- ヘッダー --- */
+h1 {
+    color: #2c3e50; /* 落ち着いたダークブルー */
+    margin-bottom: 20px;
+}
+
 /* --- チャットルーム全体 --- */
 .chat-room-container {
-    border: 1px solid #ddd;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     max-height: 500px;
     overflow-y: auto;
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
 /* --- メッセージ表示部分 --- */
@@ -19,16 +34,21 @@
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #eee;
-    background-color: #f9f9f9;
-    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+}
+.message:hover {
+    background-color: #e9e9e9;
 }
 .message p {
     margin: 0;
     line-height: 1.5;
 }
+
+/* --- ユーザーアイコン --- */
 .message img {
     width: 50px;
     height: 50px;
@@ -38,13 +58,12 @@
 
 /* --- 送信フォーム --- */
 .send-message-container {
-    width: 60%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     max-width: 800px;
-    margin: 20px auto 0 auto;
-    background-color: #fff;
+    margin: 0 auto;
     padding: 15px;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 .message-form {
     display: flex;
@@ -52,55 +71,55 @@
 }
 .message-form input[type="text"] {
     flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 12px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    box-sizing: border-box;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+.message-form input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
 }
 .message-form button {
     background-color: #007bff;
     color: #fff;
-    padding: 10px 15px;
+    padding: 12px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
 }
 .message-form button:hover {
     background-color: #0056b3;
 }
 
-/* --- その他の基本スタイル --- */
-body {
-    font-family: sans-serif;
-    margin: 20px;
-    background-color: #f4f4f4;
-    color: #333;
-}
-h1 {
-    color: #0056b3;
-    margin-bottom: 20px;
-}
+/* --- リンク --- */
 a {
     color: #007bff;
     text-decoration: none;
+    transition: color 0.3s;
 }
 a:hover {
+    color: #0056b3;
     text-decoration: underline;
 }
 
 /* --- レスポンシブ対応 --- */
 @media (max-width: 768px) {
     body {
-        margin: 10px;
+        padding: 10px;
         font-size: 14px;
     }
     .chat-room-container, .send-message-container {
-        padding: 10px;
+        padding: 15px;
     }
     .message-form {
         flex-direction: column;
     }
-    .message-form input[type="text"] {
+    .message-form input[type="text"],
+    .message-form button {
         width: 100%;
     }
 }

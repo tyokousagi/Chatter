@@ -93,6 +93,12 @@
 
             // DOMに追加
             messagesContainer.appendChild(messageElement);
+
+            // 外側のスクロールコンテナ (.chat-room-container) のスクロール位置を更新
+            var chatContainer = document.querySelector('.chat-room-container');
+            if (chatContainer) {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
         }
 
 
