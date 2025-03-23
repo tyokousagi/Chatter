@@ -11,7 +11,10 @@ body {
 h1 {
     color: #2c3e50; /* 落ち着いたダークブルー */
     margin-bottom: 20px;
+<<<<<<< HEAD
     font-size: 24px;
+=======
+>>>>>>> origin/main
 }
 
 /* --- チャットルーム全体 --- */
@@ -66,8 +69,11 @@ h1 {
     max-width: 800px;
     margin: 0 auto;
     padding: 15px;
+<<<<<<< HEAD
     position: sticky;
     bottom: 10px;
+=======
+>>>>>>> origin/main
 }
 .message-form {
     display: flex;
@@ -104,6 +110,7 @@ a {
     color: #007bff;
     text-decoration: none;
     transition: color 0.3s;
+<<<<<<< HEAD
     display: inline-block;
     margin-top: 10px;
     padding: 8px 16px;
@@ -113,6 +120,12 @@ a {
 a:hover {
     color: #0056b3;
     background-color: #e0e0e0;
+=======
+}
+a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+>>>>>>> origin/main
 }
 
 /* --- レスポンシブ対応：スマートフォン向け --- */
@@ -121,6 +134,7 @@ a:hover {
         padding: 10px;
         font-size: 14px;
     }
+<<<<<<< HEAD
     
     h1 {
         font-size: 20px;
@@ -154,6 +168,16 @@ a:hover {
     #chatForm {
         display: flex;
         flex-direction: row;
+=======
+    .chat-room-container, .send-message-container {
+        padding: 15px;
+    }
+    .message-form {
+        flex-direction: column;
+    }
+    .message-form input[type="text"],
+    .message-form button {
+>>>>>>> origin/main
         width: 100%;
     }
     
