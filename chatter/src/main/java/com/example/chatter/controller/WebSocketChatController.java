@@ -1,8 +1,10 @@
 package com.example.chatter.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,10 @@ public class WebSocketChatController {
     // Discord 送信用
     @Autowired
     private DiscordMessenger discordMessenger;
+    
+    // プロパティファイルから Discord Webhook URL を取得
+    @Value("${app.discord.webhook.url}")
+    private String discordWebhookUrl;
 
     @MessageMapping("/chat.sendMessage")
     public void sendMessage(ChatMessage incomingMessage) throws Exception {
@@ -62,17 +68,15 @@ public class WebSocketChatController {
         System.out.println("Sent message to /topic/chatrooms/" + roomId + ": " + outgoingMessage);
 
         // ===== Discord 送信用の処理を追加 =====
-        String discordWebhookUrl = System.getenv("DISCORD_WEBHOOK_URL");
-        if (discordWebhookUrl == null || discordWebhookUrl.isEmpty()) {
-            // 必要に応じてデフォルト値を設定
-            discordWebhookUrl = "https://discord.com/api/webhooks/1334948744810201088/uy0fHxtcYJRtnKTt9dFbTlzNAkst6mQk43dplGmf1vGcJNHMWjhJ49K8U2q2vGu57_Mw";
-            System.err.println("DISCORD_WEBHOOK_URL is not set in environment variables. Using default value (NOT recommended for production).");
-        }
+        // デバッグ用出力
+        System.out.println("Discord Webhook URL: " + discordWebhookUrl);
 
         // メッセージが空でなければ Discord に送信
         if (incomingMessage.getMessage() != null && !incomingMessage.getMessage().isEmpty()) {
             discordMessenger.sendDiscordMessage(discordWebhookUrl, incomingMessage.getMessage());
         }
+        
+        // Discord通知のみ残し、プッシュ通知と通知機能は削除されました
     }
 
     @Data

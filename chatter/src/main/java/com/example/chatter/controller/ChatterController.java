@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.example.chatter.DiscordMessenger;
+import com.example.chatter.config.ApplicationContextProvider;
 import com.example.chatter.entity.Authentication;
 import com.example.chatter.entity.ChatRooms;
 import com.example.chatter.entity.Messages;
@@ -78,8 +79,10 @@ public class ChatterController {
         // Discord Webhook への送信処理
         String discordWebhookUrl = System.getenv("DISCORD_WEBHOOK_URL");
         if (discordWebhookUrl == null || discordWebhookUrl.isEmpty()) {
-            discordWebhookUrl = "https://discord.com/api/webhooks/1334948744810201088/uy0fHxtcYJRtnKTt9dFbTlzNAkst6mQk43dplGmf1vGcJNHMWjhJ49K8U2q2vGu57_Mw";
-            System.err.println("DISCORD_WEBHOOK_URL is not set in environment variables. Using default value.");
+            // 環境変数から取得できない場合は、アプリケーションプロパティから取得
+            org.springframework.core.env.Environment env = com.example.chatter.config.ApplicationContextProvider.getApplicationContext().getEnvironment();
+            discordWebhookUrl = env.getProperty("app.discord.webhook.url");
+            System.err.println("DISCORD_WEBHOOK_URL is not set in environment variables. Using property value.");
         }
         String message = newMessage.getMessage();
         if (message != null && !message.isEmpty()) {

@@ -22,7 +22,7 @@ public class Messages {
     private LocalDateTime created_at;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id")
     private Authentication user;
 }
 

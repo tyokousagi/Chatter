@@ -8,6 +8,7 @@
     <!-- SockJS と STOMP のライブラリ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <!-- 通知機能は削除されました -->
     <!-- JavaScript のインライン処理で Thymeleaf 変数を展開 -->
     <script th:inline="javascript">
         var roomId = [[${ chatRoom.id }]];
@@ -19,6 +20,8 @@
 
 <body>
     <h1>Chat Room: <span th:text="${chatRoom.room_name}"></span></h1>
+    
+    <!-- 通知設定は削除されました -->
 
     <!-- メッセージ表示エリア -->
     <div class="chat-room-container">
@@ -45,205 +48,132 @@
     <script>
         var stompClient = null;
 
-        // 通知権限を要求する関数
-        function requestNotificationPermission() {
-            if ('Notification' in window) {
-                if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
-                    Notification.requestPermission().then(function(permission) {
-                        if (permission === 'granted') {
-                            console.log('通知許可を取得しました');
-                        }
-                    });
-                }
-            }
-        }
-
-        // 通知を表示する関数
-        function notifyMessage(message) {
-            // 自分が送信したメッセージは通知しない
-            if (message.user && message.user.username === currentUser) {
-                return;
-            }
-            
-            // 通知APIがサポートされているか確認
-            if (!('Notification' in window)) {
-                return;
-            }
-            
-            // ドキュメントが非アクティブの場合のみ通知
-            if (Notification.permission === 'granted' && document.hidden) {
-                try {
-                    // ユーザー名とアイコンURL取得
-                    const username = message.user ? message.user.username : '不明なユーザー';
-                    const iconUrl = message.user && message.user.iconUrl ? 
-                        message.user.iconUrl : '/images/default_icon.png';
-                    
-                    // 通知を作成して表示
-                    const notification = new Notification('新しいメッセージ', {
-                        body: `${username}: ${message.message}`,
-                        icon: iconUrl,
-                        tag: 'chatter-message'
-                    });
-                    
-                    // 通知クリック時の動作
-                    notification.onclick = function() {
-                        window.focus();
-                        this.close();
-                    };
-                    
-                    // 自動的に閉じる（5秒後）
-                    setTimeout(function() {
-                        notification.close();
-                    }, 5000);
-
-                    // タイトルに未読メッセージ数を表示
-                    unreadCount++;
-                    document.title = `(${unreadCount}) ${originalTitle}`;
-                } catch (e) {
-                    console.error('通知の表示中にエラーが発生しました:', e);
-                }
-            }
-        }
-
         function connect() {
-            try {
-                var socket = new SockJS('/ws');
-                stompClient = Stomp.over(socket);
-                
-                // デバッグ情報を一時的に有効化
-                stompClient.debug = function(str) {
-                    console.log(str);
-                };
-                
-                stompClient.connect({}, function (frame) {
-                    console.log('Connected: ' + frame);
-                    stompClient.subscribe('/topic/chatrooms/' + roomId, function (messageOutput) {
-                        try {
-                            var message = JSON.parse(messageOutput.body);
-                            showMessage(message);
-                        } catch (e) {
-                            console.error('メッセージの処理中にエラーが発生しました:', e);
-                        }
-                    });
-                }, function (error) {
-                    console.error('WebSocket 接続エラー:', error);
-                    // 5秒後に再接続
-                    setTimeout(connect, 5000);
+            var socket = new SockJS('/ws');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/chatrooms/' + roomId, function (messageOutput) {
+                    showMessage(JSON.parse(messageOutput.body));
                 });
-            } catch (e) {
-                console.error('WebSocket接続の確立中にエラーが発生しました:', e);
-            }
+            }, function (error) {
+                console.error('WebSocket 接続エラー:', error);
+                // 5秒後に再接続を試みる
+                setTimeout(function() {
+                    console.log('WebSocket 再接続を試みます...');
+                    connect();
+                }, 5000);
+            });
         }
+        
+        // 通知機能関連のコードは削除されました
 
         function showMessage(message) {
             console.log("Received message details:", message);
 
-            try {
-                // メッセージ表示領域
-                var messagesContainer = document.getElementById("messages");
+            // メッセージ表示領域
+            var messagesContainer = document.getElementById("messages");
 
-                // メッセージ全体を包むdiv
-                var messageElement = document.createElement("div");
-                messageElement.className = "message";
+            // メッセージ全体を包むdiv（Thymeleafでいう <div class="message"> と同じ）
+            var messageElement = document.createElement("div");
+            messageElement.className = "message";
 
-                // アイコン画像の生成
-                var img = document.createElement("img");
-                if (message.user && message.user.iconUrl) {
-                    img.src = message.user.iconUrl;
-                } else {
-                    // アイコンが無い場合はデフォルトアイコン
-                    img.src = "/images/default_icon.png";
-                }
-                img.alt = "User Icon";
-                img.width = 50;
-                img.height = 50;
-                img.style.borderRadius = "50%";
-                img.style.marginRight = "8px";
+            // アイコン画像の生成
+            var img = document.createElement("img");
+            if (message.user && message.user.iconUrl) {
+                img.src = message.user.iconUrl;
+            } else {
+                // アイコンが無い場合はデフォルトアイコン
+                img.src = "/images/default_icon.png";
+            }
+            img.alt = "User Icon";
+            img.width = 50;
+            img.height = 50;
+            img.style.borderRadius = "50%";
+            img.style.marginRight = "8px";
 
-                // テキスト部分を <p> で生成
-                var textP = document.createElement("p");
-                textP.textContent = message.message;
+            // テキスト部分を <p> で生成（Thymeleafの <p th:text="${message.message}"> に合わせる）
+            var textP = document.createElement("p");
+            // ユーザー名を表示したい場合はここで連結する
+            // 例: textP.textContent = (message.user && message.user.username) ? message.user.username + ": " + message.message : message.message;
+            textP.textContent = message.message;
 
-                // 要素を組み立てる
-                messageElement.appendChild(img);
-                messageElement.appendChild(textP);
+            // 要素を組み立てる
+            messageElement.appendChild(img);
+            messageElement.appendChild(textP);
 
-                // DOMに追加
-                messagesContainer.appendChild(messageElement);
-
-                // スクロール位置を更新
-                var chatContainer = document.querySelector('.chat-room-container');
-                if (chatContainer) {
-                    chatContainer.scrollTop = chatContainer.scrollHeight;
-                }
-
-                // 通知処理を別のtry-catchで囲む
-                try {
-                    notifyMessage(message);
-                } catch (notifyError) {
-                    console.error('通知処理中にエラーが発生しました:', notifyError);
-                }
-            } catch (e) {
-                console.error('メッセージ表示中にエラーが発生しました:', e);
+            // DOMに追加
+            messagesContainer.appendChild(messageElement);
+            
+            // スクロールを一番下に移動
+            var chatContainer = document.querySelector('.chat-room-container');
+            if (chatContainer) {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+            
+            // 自分が送信したメッセージではなく、かつページが非アクティブの場合はタイトルバーの未読数をカウントアップ
+            if (message.user && message.user.username !== currentUser && document.hidden) {
+                unreadCount++;
+                document.title = `(${unreadCount}) ${originalTitle}`;
             }
         }
 
+
         document.getElementById("chatForm").addEventListener("submit", function (event) {
             event.preventDefault();
-            try {
-                var messageInput = document.getElementById("messageInput");
-                var messageContent = messageInput.value.trim();
-                
-                if (messageContent !== "") {
-                    if (stompClient && stompClient.connected) {
-                        var chatMessage = {
-                            roomId: roomId,
-                            user: { username: currentUser },
-                            message: messageContent
-                        };
-                        console.log("送信メッセージ:", chatMessage);
-                        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
-                        messageInput.value = "";
-                    } else {
-                        console.error("WebSocket接続が確立されていません。再接続を試みます。");
-                        connect(); // 接続が切れている場合は再接続
-                        alert("サーバーへの接続が切れました。再接続しています。もう一度メッセージを送信してください。");
-                    }
-                } else {
-                    console.error("メッセージが空です。");
-                }
-            } catch (e) {
-                console.error('メッセージ送信中にエラーが発生しました:', e);
+            var messageInput = document.getElementById("messageInput");
+            var messageContent = messageInput.value.trim();
+            if (messageContent !== "" && stompClient) {
+                var chatMessage = {
+                    roomId: roomId,
+                    user: { username: currentUser },
+                    message: messageContent
+                };
+                console.log("送信メッセージ:", chatMessage);
+                stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+                messageInput.value = "";
+            } else {
+                console.error("メッセージが空か、WebSocket 接続が確立されていません。");
             }
         });
-
-        // ページの可視性変更検知
+        
+        // ページがアクティブになったときに未読カウントをリセット
         document.addEventListener('visibilitychange', function() {
             if (!document.hidden) {
-                // ページがアクティブになったら未読カウントをリセット
                 unreadCount = 0;
                 document.title = originalTitle;
             }
         });
 
         window.addEventListener("load", function () {
-            try {
-                // ページ読み込み時に通知許可を要求
-                requestNotificationPermission();
-                // WebSocket接続
-                connect();
-                // 初期スクロール位置を設定
-                var chatContainer = document.querySelector('.chat-room-container');
-                if (chatContainer) {
-                    chatContainer.scrollTop = chatContainer.scrollHeight;
-                }
-                // タイトルを保存
-                originalTitle = document.title;
-            } catch (e) {
-                console.error('ページ初期化中にエラーが発生しました:', e);
+            connect();
+            var chatContainer = document.querySelector('.chat-room-container');
+            if (chatContainer) {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
             }
+            // Service Worker関連のコードは削除されました
         });
     </script>
+    
+    <style>
+    /* 通知設定関連のスタイルは削除されました */
+    
+    /* デバッグログ（必要に応じて表示） */
+    #debug-log {
+        display: none; /* 通常は非表示 */
+        height: 100px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        padding: 5px;
+        font-size: 12px;
+        font-family: monospace;
+        margin-top: 10px;
+        background-color: #f9f9f9;
+    }
+    </style>
+    
+    <!-- デバッグログ（開発時のみ表示） -->
+    <div id="debug-log" style="display:none;"></div>
 </body>
 
 </html>
