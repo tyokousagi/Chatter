@@ -45,15 +45,17 @@ public class SecurityConfig {
             )
             // rememberMeを設定
             .rememberMe(rememberMe -> {
-                rememberMe.key("securityKey") // 固定の鍵
+                rememberMe.key("securityKey") // 固定の鍵（実運用では環境変数か外部設定から取得すべき）
                     .tokenValiditySeconds(8640000) // Cookie の有効期限 (秒単位、例: 100 日)
-                    .rememberMeParameter("remember-me"); // ログイン画面のチェックボックスの名前
+                    .rememberMeParameter("remember-me") // ログイン画面のチェックボックスの名前
+                    .userDetailsService(userDetailsService) // ユーザー詳細サービスを明示的に設定
+                    .useSecureCookie(true); // HTTPSでのみクッキーを送信する設定
             })
             .logout(logout -> logout
                 // ログアウト時の処理を設定
                 .logoutSuccessUrl("/login?logout") // ログアウト後のリダイレクト先
                 .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
+                .deleteCookies("JSESSIONID", "remember-me") // セッションCookieとRemember-Me Cookieの両方を削除
                 .permitAll()
             );
 
