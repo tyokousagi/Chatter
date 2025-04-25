@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>チャットルーム選択</title>
     <link rel="stylesheet" th:href="@{/css/style.css}"></link> 
-    <!-- 通知機能は削除されました -->
     <style>
-        /* スマートフォン向け追加スタイル */
         @media (max-width: 480px) {
             .menu-container {
                 padding: 15px;
@@ -55,7 +53,6 @@
     </style>
 </head>
 <body>
-
     <div class="menu-container">
         <div class="user-info" sec:authentication="name"></div>
 
@@ -68,7 +65,7 @@
         </ul>
         <p th:unless="${chatRooms.size() > 0}">チャットルームがありません。</p>
 
-        <div class="form-container"> <!-— form-containerで囲む -->
+        <div class="form-container">
             <h2>チャットルーム作成</h2>
             <form th:action="@{/chatrooms}" method="post">
                 <label for="roomName">ルーム名:</label>
@@ -77,14 +74,12 @@
             </form>
         </div>
         <div class="login-link">
-            <a th:href="@{/login}">ログイン</a>  </div>
-            <br>
+            <a th:href="@{/login}">ログイン</a>
+        </div>
+        <br>
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="ログアウト">
         </form>
-        
-        <!-- 通知設定機能は削除されました -->
     </div>
-
 </body>
 </html>

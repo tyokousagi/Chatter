@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.chatter.repository.PushSubscriptionMapper">
-    <!-- このファイルはDiscord通知以外の通知機能削除の一環として内容が削除されました -->
-</mapper>
