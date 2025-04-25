@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <title th:text="${chatRoom.room_name}"></title>
     <link rel="stylesheet" th:href="@{/css/chatroom.css}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- SockJS と STOMP のライブラリ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <!-- 通知機能は削除されました -->
-    <!-- JavaScript のインライン処理で Thymeleaf 変数を展開 -->
     <script th:inline="javascript">
         var roomId = [[${ chatRoom.id }]];
         var currentUser = [[${ #authentication.name }]];
@@ -21,12 +17,8 @@
 <body>
     <h1>Chat Room: <span th:text="${chatRoom.room_name}"></span></h1>
     
-    <!-- 通知設定は削除されました -->
-
-    <!-- メッセージ表示エリア -->
     <div class="chat-room-container">
         <div class="messages-container" id="messages">
-            <!-- サーバーから初期読み込みしたメッセージ群 -->
             <div th:each="message : ${messages}" class="message">
                 <img th:if="${message.user != null}" th:src="${message.user.iconUrl}" alt="User Icon" />
                 <img th:unless="${message.user != null}" th:src="@{/images/default_icon.png}" alt="Default Icon" />
@@ -35,7 +27,6 @@
         </div>
     </div>
 
-    <!-- 送信エリア：WebSocket 経由で送信するため、フォームのデフォルト送信はキャンセル -->
     <div class="send-message-container">
         <form id="chatForm">
             <input type="text" id="messageInput" placeholder="メッセージを入力..." />
@@ -58,32 +49,24 @@
                 });
             }, function (error) {
                 console.error('WebSocket 接続エラー:', error);
-                // 5秒後に再接続を試みる
                 setTimeout(function() {
                     console.log('WebSocket 再接続を試みます...');
                     connect();
                 }, 5000);
             });
         }
-        
-        // 通知機能関連のコードは削除されました
 
         function showMessage(message) {
             console.log("Received message details:", message);
 
-            // メッセージ表示領域
             var messagesContainer = document.getElementById("messages");
-
-            // メッセージ全体を包むdiv（Thymeleafでいう <div class="message"> と同じ）
             var messageElement = document.createElement("div");
             messageElement.className = "message";
 
-            // アイコン画像の生成
             var img = document.createElement("img");
             if (message.user && message.user.iconUrl) {
                 img.src = message.user.iconUrl;
             } else {
-                // アイコンが無い場合はデフォルトアイコン
                 img.src = "/images/default_icon.png";
             }
             img.alt = "User Icon";
@@ -92,32 +75,23 @@
             img.style.borderRadius = "50%";
             img.style.marginRight = "8px";
 
-            // テキスト部分を <p> で生成（Thymeleafの <p th:text="${message.message}"> に合わせる）
             var textP = document.createElement("p");
-            // ユーザー名を表示したい場合はここで連結する
-            // 例: textP.textContent = (message.user && message.user.username) ? message.user.username + ": " + message.message : message.message;
             textP.textContent = message.message;
 
-            // 要素を組み立てる
             messageElement.appendChild(img);
             messageElement.appendChild(textP);
-
-            // DOMに追加
             messagesContainer.appendChild(messageElement);
             
-            // スクロールを一番下に移動
             var chatContainer = document.querySelector('.chat-room-container');
             if (chatContainer) {
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
             
-            // 自分が送信したメッセージではなく、かつページが非アクティブの場合はタイトルバーの未読数をカウントアップ
             if (message.user && message.user.username !== currentUser && document.hidden) {
                 unreadCount++;
                 document.title = `(${unreadCount}) ${originalTitle}`;
             }
         }
-
 
         document.getElementById("chatForm").addEventListener("submit", function (event) {
             event.preventDefault();
@@ -137,7 +111,6 @@
             }
         });
         
-        // ページがアクティブになったときに未読カウントをリセット
         document.addEventListener('visibilitychange', function() {
             if (!document.hidden) {
                 unreadCount = 0;
@@ -151,16 +124,12 @@
             if (chatContainer) {
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
-            // Service Worker関連のコードは削除されました
         });
     </script>
     
     <style>
-    /* 通知設定関連のスタイルは削除されました */
-    
-    /* デバッグログ（必要に応じて表示） */
     #debug-log {
-        display: none; /* 通常は非表示 */
+        display: none;
         height: 100px;
         overflow-y: auto;
         border: 1px solid #ddd;
@@ -172,8 +141,6 @@
     }
     </style>
     
-    <!-- デバッグログ（開発時のみ表示） -->
     <div id="debug-log" style="display:none;"></div>
 </body>
-
 </html>

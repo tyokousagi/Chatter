@@ -2,16 +2,16 @@
 body {
     font-family: sans-serif;
     margin: 20px;
-    background-color: #f4f4f4; /* 薄いグレーの背景 */
-    color: #333; /* 濃いグレーの文字色 */
+    background-color: #f4f4f4;
+    color: #333;
 }
 
 h1, h2 {
-    color: #0056b3; /* 青色の見出し */
+    color: #0056b3;
 }
 
 a {
-    color: #007bff; /* 青色のリンク */
+    color: #007bff;
     text-decoration: none;
 }
 
@@ -21,9 +21,9 @@ a:hover {
 
 /* チャットルーム */
 .chat-room-container {
-    border: 1px solid #ddd; /* 薄いグレーの枠線 */
+    border: 1px solid #ddd;
     padding: 20px;
-    background-color: #fff; /* 白色の背景 */
+    background-color: #fff;
     border-radius: 5px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -31,8 +31,8 @@ a:hover {
 .message {
     margin-bottom: 10px;
     padding: 10px;
-    border: 1px solid #eee; /* 薄いグレーの枠線 */
-    background-color: #f9f9f9; /* 薄いグレーの背景 */
+    border: 1px solid #eee;
+    background-color: #f9f9f9;
     border-radius: 5px;
 }
 
@@ -75,13 +75,13 @@ a:hover {
 .menu-container a {
     display: inline-block;
     padding: 8px 12px;
-    border: 1px solid #007bff; /* 青色の枠線 */
+    border: 1px solid #007bff;
     background-color: #fff;
     border-radius: 5px;
 }
 
 .menu-container a:hover {
-    background-color: #e3f2fd; /* 薄い青色の背景 */
+    background-color: #e3f2fd;
 }
 
 .form-container {
@@ -108,7 +108,7 @@ input[type="text"] {
 }
 
 button {
-    background-color: #007bff; /* 青色 */
+    background-color: #007bff;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -120,22 +120,16 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* 通知設定 */
-.notification-settings {
-    margin-top: 20px;
+/* リンク */
+a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s;
 }
 
-.notification-settings p {
-    margin-bottom: 15px;
-}
-
-.notification-status {
-    padding: 8px;
-    background-color: #f8f9fa;
-    border-radius: 4px;
-    border-left: 4px solid #6c757d;
-    margin-bottom: 15px;
-    font-size: 14px;
+a:hover {
+    color: #0056b3;
+    text-decoration: underline;
 }
 
 .btn {
@@ -194,10 +188,6 @@ button:hover {
         width: 100%;
         margin-bottom: 10px;
         box-sizing: border-box;
-    }
-
-    .chat-room-container {
-        padding: 10px;
     }
 
     input[type="text"] {
