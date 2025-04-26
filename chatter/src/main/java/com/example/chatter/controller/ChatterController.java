@@ -90,4 +90,10 @@ public class ChatterController {
         }
         return "redirect:/chatrooms/" + roomId;
     }
+
+    @PostMapping("/chatrooms/{roomId}/delete")
+    public String deleteChatRoom(@PathVariable int roomId) {
+        chatRoomService.deleteChatRoom(roomId);
+        return "redirect:/";
+    }
 }
