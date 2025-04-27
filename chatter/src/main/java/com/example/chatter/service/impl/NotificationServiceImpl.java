@@ -53,17 +53,23 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void saveSettings(String username, List<NotificationSettingRequest> request) {
+
         List<NotificationSetting> settings = request.stream()
             .map(req -> {
                 NotificationSetting setting = new NotificationSetting();
-                UserReadState.UserReadStateId id = new UserReadState.UserReadStateId();
+
+                // ★ ここを NotificationSetting.NotificationSettingId に変更
+                NotificationSetting.NotificationSettingId id =
+                    new NotificationSetting.NotificationSettingId();
                 id.setUsername(username);
                 id.setChatRoomId(req.getRoomId());
+
                 setting.setId(id);
                 setting.setEnabled(req.isEnabled());
                 return setting;
             })
             .collect(Collectors.toList());
+
         notificationSettingMapper.bulkUpsert(settings);
     }
 
