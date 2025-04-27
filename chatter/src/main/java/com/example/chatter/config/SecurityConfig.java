@@ -7,11 +7,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
 import lombok.RequiredArgsConstructor;
 
 @Configuration
-@EnableWebSecurity // Spring Security を有効にするアノテーション
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -21,41 +20,34 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // チャネルセキュリティを設定 - すべてのリクエストをHTTPS経由にする
             .requiresChannel(channel -> channel.anyRequest().requiresSecure())
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
-                // 認証が不要なパスを指定
-                .requestMatchers("/", "/css/**", "/images/**", "/js/**", "/service-worker.js", "/api/push/**").permitAll() // トップページ、静的リソース、Push通知API全般は認証不要
-                // 他のパスは認証が必要
+                .requestMatchers("/login", "/logout", "/css/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers("/api/**").authenticated()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                // ログインページ、ログイン処理URL などを設定
-                .loginPage("/login") // ログインページのパス
+                .loginPage("/login")
                 .loginProcessingUrl("/authentication")
                 .usernameParameter("usernameInput")
                 .passwordParameter("passwordInput")
-                .defaultSuccessUrl("/") // ログイン成功後のリダイレクト先
+                .defaultSuccessUrl("/")
                 .failureForwardUrl("/login?error")
                 .permitAll()
             )
-            // CSRFの例外を追加
-            .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/api/push/**") // プッシュ通知APIはCSRF保護の対象外にする
+            .httpBasic(customizer -> {}) // APIだけBasic認証
+            .rememberMe(rememberMe -> rememberMe
+                .key("securityKey")
+                .tokenValiditySeconds(8640000)
+                .rememberMeParameter("remember-me")
+                .userDetailsService(userDetailsService)
+                .useSecureCookie(true)
             )
-            // rememberMeを設定
-            .rememberMe(rememberMe -> {
-                rememberMe.key("securityKey") // 固定の鍵（実運用では環境変数か外部設定から取得すべき）
-                    .tokenValiditySeconds(8640000) // Cookie の有効期限 (秒単位、例: 100 日)
-                    .rememberMeParameter("remember-me") // ログイン画面のチェックボックスの名前
-                    .userDetailsService(userDetailsService) // ユーザー詳細サービスを明示的に設定
-                    .useSecureCookie(true); // HTTPSでのみクッキーを送信する設定
-            })
             .logout(logout -> logout
-                // ログアウト時の処理を設定
-                .logoutSuccessUrl("/login?logout") // ログアウト後のリダイレクト先
+                .logoutSuccessUrl("/login?logout")
                 .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID", "remember-me") // セッションCookieとRemember-Me Cookieの両方を削除
+                .deleteCookies("JSESSIONID", "remember-me")
                 .permitAll()
             );
 
