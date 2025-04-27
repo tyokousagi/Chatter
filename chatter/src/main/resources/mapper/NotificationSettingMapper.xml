@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chatter.repository.NotificationSettingMapper">
+
+    <resultMap id="NotificationSettingResultMap" type="com.example.chatter.entity.NotificationSetting">
+        <result property="enabled" column="enabled"/>
+        <association property="id" javaType="com.example.chatter.entity.NotificationSetting$NotificationSettingId">
+            <id property="username" column="username"/>
+            <id property="chatRoomId" column="chat_room_id"/>
+        </association>
+    </resultMap>
+
+    <select id="findByUser" parameterType="string" resultMap="NotificationSettingResultMap">
+        SELECT username, chat_room_id, enabled
+        FROM notification_settings
+        WHERE username = #{username}
+    </select>
+
+    <insert id="bulkUpsert">
+        INSERT INTO notification_settings (username, chat_room_id, enabled)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id.username}, #{item.id.chatRoomId}, #{item.enabled})
+        </foreach>
+        ON CONFLICT (username, chat_room_id)
+        DO UPDATE SET enabled = EXCLUDED.enabled
+    </insert>
+
+</mapper>
